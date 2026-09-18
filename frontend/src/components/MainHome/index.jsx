@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Context } from "../context/Context";
 
 import SideNavbar from "../SideNavbar";
 import Chats from "../Chats";
 import Viewer from "../Viewer";
 
 const MainHome = () => {
-  const [selectedChat, setSelectedChat] = useState(null);
+  const { selectedChat } = useContext(Context);
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-white">
@@ -14,21 +15,18 @@ const MainHome = () => {
         {!selectedChat ? (
           <>
             <SideNavbar />
-            <Chats setSelectedChat={setSelectedChat} />
+            <Chats />
           </>
         ) : (
-          <Viewer
-            selectedChat={selectedChat}
-            setSelectedChat={setSelectedChat}
-          />
+          <Viewer />
         )}
       </div>
 
       {/* Tablet & Desktop */}
       <div className="hidden md:flex flex-1 overflow-hidden">
         <SideNavbar />
-        <Chats selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
-        <Viewer selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
+        <Chats />
+        <Viewer />
       </div>
     </div>
   );

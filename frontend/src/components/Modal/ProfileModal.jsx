@@ -18,6 +18,7 @@ const ProfileModal = () => {
     Cookies.removeItem("jwt_token");
     Cookies.removeItem("user");
     setJwtToken(null);
+    setOpenProfile(false);
 
     navigate("/", { replace: true });
   };
@@ -36,7 +37,7 @@ const ProfileModal = () => {
       icon: KeyRound,
     },
     {
-      id: "logout",
+      id: 3,
       name: "Logout",
       para: "",
       icon: LogOut,
@@ -66,10 +67,10 @@ const ProfileModal = () => {
           />
         </div>
         <div className="mx-auto">
-          <p className="text-md font-medium text-orange-500">
+          <p className="text-md font-medium text-orange-500 text-center">
             {userDetails.mobileNumber}
           </p>
-          <p className="text-md font-medium text-green-500">
+          <p className="text-md font-medium text-green-500 text-center">
             {userDetails.username}
           </p>
         </div>
@@ -83,11 +84,11 @@ const ProfileModal = () => {
               <div>
                 <each.icon
                   size={30}
-                  className={each.id === "logout" ? "text-red-600" : ""}
+                  className={each.id === 3 ? "text-red-600" : ""}
                 />
               </div>
 
-              {each.id === "logout" ? (
+              {each.id === 3 ? (
                 <div onClick={logoutHandler}>
                   <p className="text-md font-medium text-red-600">
                     {each.name}

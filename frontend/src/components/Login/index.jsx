@@ -123,8 +123,7 @@ const Login = () => {
                 type="password"
                 id="passcode"
                 placeholder="Enter Password"
-                minLength="7"
-                maxLength="15"
+                minLength="8"
                 className="p-2 border outline-0 rounded-sm font-semibold text-black"
                 required
                 name="password"

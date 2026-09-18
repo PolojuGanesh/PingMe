@@ -113,7 +113,7 @@ const Register = () => {
                 onChange={onChangeHandler}
                 value={userData.username}
                 minLength="7"
-                maxlength="14"
+                maxLength="14"
               />
             </div>
             <div className="flex flex-col gap-1">

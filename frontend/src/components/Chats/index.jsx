@@ -1,89 +1,161 @@
+import { useEffect, useState, useContext } from "react";
 import { EllipsisVertical } from "lucide-react";
+import { toast } from "react-toastify";
 
-const accountsData = [
-  {
-    id: 1,
-    name: "John Doe",
-    mobile: "1234567890",
-    time: "10:30 AM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    mobile: "0987654321",
-    time: "11:00 AM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    mobile: "5555555555",
-    time: "09:15 AM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 4,
-    name: "Bob Brown",
-    mobile: "4444444444",
-    time: "01:45 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 5,
-    name: "Charlie Davis",
-    mobile: "3333333333",
-    time: "02:20 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 6,
-    name: "Diana Evans",
-    mobile: "2222222222",
-    time: "03:10 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 7,
-    name: "Frank Green",
-    mobile: "1111111111",
-    time: "04:05 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 8,
-    name: "Grace Harris",
-    mobile: "6666666666",
-    time: "05:30 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 9,
-    name: "Hank Irving",
-    mobile: "7777777777",
-    time: "06:45 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-  {
-    id: 10,
-    name: "Ivy Jackson",
-    mobile: "8888888888",
-    time: "07:15 PM",
-    imageUrl:
-      "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-  },
-];
+import { Context } from "../context/Context";
 
-const Chats = ({ selectedChat, setSelectedChat }) => {
+const accountsData = {
+  users: [
+    {
+      _id: 1,
+      username: "John Doe",
+      mobileNumber: "1234567890",
+      time: "10:30 AM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 2,
+      username: "Jane Smith",
+      mobileNumber: "0987654321",
+      time: "11:00 AM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 3,
+      username: "Alice Johnson",
+      mobileNumber: "5555555555",
+      time: "09:15 AM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 4,
+      username: "Bob Brown",
+      mobileNumber: "4444444444",
+      time: "01:45 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 5,
+      username: "Charlie Davis",
+      mobileNumber: "3333333333",
+      time: "02:20 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 6,
+      username: "Diana Evans",
+      mobileNumber: "2222222222",
+      time: "03:10 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 7,
+      username: "Frank Green",
+      mobileNumber: "9999999999",
+      time: "04:05 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 8,
+      username: "Grace Harris",
+      mobileNumber: "6666666666",
+      time: "05:30 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 9,
+      username: "Hank Irving",
+      mobileNumber: "7777777777",
+      time: "06:45 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 10,
+      username: "Ivy Jackson",
+      mobileNumber: "8888888888",
+      time: "07:15 PM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+    {
+      _id: 11,
+      username: "Narsimhachary",
+      mobileNumber: "1111111111",
+      time: "10:30 AM",
+      imageUrl:
+        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
+    },
+  ],
+};
+
+const Chats = () => {
+  const {
+    apiUrl,
+    userDetails,
+    allContacts,
+    addToContactsHandler,
+    searchInput,
+    setSearchInput,
+    searchResults,
+    setSearchResults,
+    selectedChat,
+    setSelectedChat,
+  } = useContext(Context);
+
+  const userSearchHandler = async () => {
+    if (!searchInput.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    try {
+      const url = `${apiUrl}/search-user?searchQuery=${encodeURIComponent(searchInput)}`;
+
+      const response = await fetch(url);
+      const responseData = await response.json();
+
+      if (response.ok) {
+        setSearchResults(responseData.users);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error searching for users:", error);
+      setSearchResults([]);
+    }
+  };
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      userSearchHandler();
+    }, 500);
+
+    return () => clearTimeout(timerId);
+  }, [searchInput, apiUrl]);
+
+  const isSearching = searchInput.trim().length > 0;
+
+  const contactsToDisplay = isSearching ? searchResults : allContacts;
+
+  const checkContactInList = (contact) => {
+    const contactExists = allContacts.some(
+      (existingContact) =>
+        existingContact.mobileNumber === contact.mobileNumber,
+    );
+
+    if (contactExists) {
+      setSelectedChat(contact);
+    }
+  };
+
   return (
     <section
       className="
@@ -129,57 +201,90 @@ const Chats = ({ selectedChat, setSelectedChat }) => {
               transition
               focus:border-violet-500
             "
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
       </header>
 
       {/* Contact List */}
-      <div className="flex-1 overflow-y-auto scrollbar-none">
-        {accountsData.map((contact) => (
-          <div
-            key={contact.id}
-            onClick={() => setSelectedChat(contact)}
-            className={`
-              flex
-              cursor-pointer
-              items-center
-              gap-4
-              px-4
-              py-3
-              border
-              border-gray-100
-              transition
-              hover:border-t-red-500
-              hover:border-r-blue-500 
-              hover:border-b-green-500 
-              hover:border-l-pink-500 
-              cursor-pointer
-              hover:bg-gradient-to-r from-red-200 via-green-200 to-pink-200
-              ${selectedChat?.id === contact.id ? "bg-violet-50" : ""}
-            `}
-          >
-            {/* Profile */}
-            <div className="w-12 h-12 rounded-full overflow-hidden shrink-0">
-              <img
-                src={contact.imageUrl}
-                alt={contact.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Details */}
-            <div className="flex-1 min-w-0">
-              <div className="flex justify-between items-center">
-                <h2 className="font-semibold truncate">{contact.mobile}</h2>
-
-                <span className="text-xs text-gray-500">{contact.time}</span>
+      {contactsToDisplay.length > 0 ? (
+        <div className="flex-1 overflow-y-auto scrollbar-none">
+          {contactsToDisplay.map((contact) => (
+            // console.log(contact),
+            <div
+              key={contact._id}
+              onClick={() => checkContactInList(contact)}
+              className={`
+                    flex
+                    cursor-pointer
+                    items-center
+                    gap-4
+                    px-4
+                    py-3
+                    border
+                    border-gray-100
+                    transition
+                    hover:border-t-red-500
+                    hover:border-r-blue-500 
+                    hover:border-b-green-500 
+                    hover:border-l-pink-500 
+                    hover:bg-gradient-to-r from-blue-200 via-purple-200 to-violet-200
+                    ${selectedChat?._id === contact._id ? "bg-violet-50" : ""}
+                  `}
+            >
+              {/* Profile */}
+              <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 hover:border-2 hover:border-orange-500">
+                <img
+                  src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png"
+                  alt={contact.username}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              <p className="text-sm text-gray-600 truncate">{contact.name}</p>
+              {/* Details */}
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-center">
+                  <h2 className="font-semibold truncate">
+                    {contact.mobileNumber}{" "}
+                    {userDetails?.id === contact._id && (
+                      <span className="text-red-500 font-semibold">(You)</span>
+                    )}
+                  </h2>
+
+                  {allContacts.some(
+                    (eachContact) =>
+                      contact.mobileNumber === eachContact.mobileNumber,
+                  ) && <span className="text-xs text-gray-500">07:07 PM</span>}
+                </div>
+
+                <p className="text-sm text-gray-600 truncate">
+                  {contact.username}
+                </p>
+              </div>
+              {!allContacts.some(
+                (eachContact) =>
+                  contact.mobileNumber === eachContact.mobileNumber,
+              ) && (
+                <button
+                  type="button"
+                  className="border border-gray-500 rounded p-1 text-sm hover:bg-violet-500 hover:text-white hover:border-violet-500 bg-transparent"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToContactsHandler(contact, userDetails.id);
+                  }}
+                >
+                  Add to contacts
+                </button>
+              )}
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 font-medium text-lg text-center py-4 flex flex-col justify-center items-center h-full">
+          No contacts found.
+        </p>
+      )}
     </section>
   );
 };

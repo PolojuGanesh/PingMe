@@ -26,6 +26,19 @@ const createUserSchema = new mongoose.Schema({
       "Password must contain at least one uppercase letter, one lowercase letter, and one special character",
     ],
   },
+  contacts: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      addedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 const UserRegister = mongoose.model("UserRegister", createUserSchema);
