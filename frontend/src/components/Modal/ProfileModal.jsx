@@ -1,17 +1,64 @@
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { Context } from "../context/Context";
-import { useContext } from "react";
-import { CircleUser, KeyRound, LogOut } from "lucide-react";
+import { useContext, useState } from "react";
+import { CircleUser, KeyRound, LogOut, Camera } from "lucide-react";
 import Cookies from "js-cookies";
 import { useNavigate } from "react-router-dom";
 import socket from "../../socket/socket";
+import { assets } from "../../assets/assets";
 
 const ProfileModal = () => {
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
 
-  const { openProfile, setOpenProfile, setJwtToken, userDetails } =
-    useContext(Context);
+  const {
+    openProfile,
+    setOpenProfile,
+    setJwtToken,
+    userDetails,
+    apiUrl,
+    setUserDetails,
+    fetchContacts,
+  } = useContext(Context);
+
+  const uploadProfileImageHandler = async (event) => {
+    const selectedProfileImage = event.target.files[0];
+    if (!selectedProfileImage) return;
+    setImage(selectedProfileImage);
+
+    try {
+      const formData = new FormData();
+      formData.append("profileImage", selectedProfileImage);
+      formData.append("userId", userDetails?.id);
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      const response = await fetch(`${apiUrl}/add-profile-image`, options);
+      const responseData = await response.json();
+      console.log(responseData);
+      console.log(responseData.user);
+
+      if (response.ok && responseData.success) {
+        const updateUserDetails = responseData.user;
+
+        await fetchContacts();
+        setUserDetails(updateUserDetails);
+
+        Cookies.setItem("user", JSON.stringify(updateUserDetails), {
+          expires: 1,
+        });
+        setImage(null);
+      } else {
+        console.log(responseData.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const logoutHandler = () => {
     socket.disconnect();
@@ -59,13 +106,44 @@ const ProfileModal = () => {
       }}
     >
       <div className="flex flex-col gap-6">
-        <div className="w-30 rounded-full border-2 border-violet-500 p-1 mx-auto">
-          <img
-            src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png"
-            alt="profile"
-            className="h-full w-full rounded-full"
+        <div className="relative w-30 h-30 mx-auto">
+          {/* Profile Image */}
+          <div className="w-full h-full rounded-full border-2 border-violet-500 p-1">
+            <img
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : userDetails?.profileImage
+                    ? `${apiUrl}/images/${userDetails.profileImage}`
+                    : assets.profileimage
+              }
+              alt="profile"
+              className="w-full h-full rounded-full object-cover"
+            />
+          </div>
+
+          {/* Camera Icon */}
+          <label
+            htmlFor="profileimage"
+            className="absolute bottom-0 right-0 
+               flex h-9 w-9 cursor-pointer items-center justify-center
+               rounded-full bg-violet-500 text-white
+               border-2 border-white
+               hover:bg-violet-600"
+          >
+            <Camera size={18} />
+          </label>
+
+          {/* File Input */}
+          <input
+            type="file"
+            id="profileimage"
+            accept="image/*"
+            hidden
+            onChange={uploadProfileImageHandler}
           />
         </div>
+
         <div className="mx-auto">
           <p className="text-md font-medium text-orange-500 text-center">
             {userDetails.mobileNumber}

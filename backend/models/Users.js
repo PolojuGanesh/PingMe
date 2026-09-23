@@ -26,6 +26,10 @@ const createUserSchema = new mongoose.Schema({
       "Password must contain at least one uppercase letter, one lowercase letter, and one special character",
     ],
   },
+  profileImage: {
+    type: String,
+    default: "",
+  },
   contacts: [
     {
       userId: {

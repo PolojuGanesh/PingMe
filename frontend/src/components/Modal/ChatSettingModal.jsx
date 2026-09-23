@@ -20,21 +20,20 @@ const ChatSettingModal = () => {
   };
 
   const handleCloseChat = () => {
+    setChatMessages([]);
     setSelectedChat(null);
     setOpenChatSetting(false);
-    console.log("Close chat clicked");
   };
 
   const handleClearChat = () => {
-    console.log("Clear chat clicked");
     setChatMessages([]);
     setOpenChatSetting(false);
   };
 
   const handleDeleteChat = () => {
-    console.log("Delete chat clicked");
     deleteChatHandler(userDetails.id, selectedChat._id);
     setSelectedChat(null);
+    setChatMessages([]);
     setOpenChatSetting(false);
   };
 

@@ -3,99 +3,7 @@ import { EllipsisVertical } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { Context } from "../context/Context";
-
-const accountsData = {
-  users: [
-    {
-      _id: 1,
-      username: "John Doe",
-      mobileNumber: "1234567890",
-      time: "10:30 AM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 2,
-      username: "Jane Smith",
-      mobileNumber: "0987654321",
-      time: "11:00 AM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 3,
-      username: "Alice Johnson",
-      mobileNumber: "5555555555",
-      time: "09:15 AM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 4,
-      username: "Bob Brown",
-      mobileNumber: "4444444444",
-      time: "01:45 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 5,
-      username: "Charlie Davis",
-      mobileNumber: "3333333333",
-      time: "02:20 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 6,
-      username: "Diana Evans",
-      mobileNumber: "2222222222",
-      time: "03:10 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 7,
-      username: "Frank Green",
-      mobileNumber: "9999999999",
-      time: "04:05 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 8,
-      username: "Grace Harris",
-      mobileNumber: "6666666666",
-      time: "05:30 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 9,
-      username: "Hank Irving",
-      mobileNumber: "7777777777",
-      time: "06:45 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 10,
-      username: "Ivy Jackson",
-      mobileNumber: "8888888888",
-      time: "07:15 PM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-    {
-      _id: 11,
-      username: "Narsimhachary",
-      mobileNumber: "1111111111",
-      time: "10:30 AM",
-      imageUrl:
-        "https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png",
-    },
-  ],
-};
+import { assets } from "../../assets/assets";
 
 const Chats = () => {
   const {
@@ -109,6 +17,7 @@ const Chats = () => {
     setSearchResults,
     selectedChat,
     setSelectedChat,
+    chatMessages,
   } = useContext(Context);
 
   const userSearchHandler = async () => {
@@ -161,7 +70,7 @@ const Chats = () => {
       className="
         flex
         flex-col
-        w-full
+        w-[85%]
         md:w-[340px]
         lg:w-[380px]
         xl:w-[420px]
@@ -174,7 +83,7 @@ const Chats = () => {
       <header className="sticky top-0 z-10 bg-white border-b">
         <div className="flex items-center justify-between px-4 py-3">
           <img
-            src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769187561/ChatGPT_Image_Jan_16__2026__08_06_42_PM-removebg-preview_g4tucn.png"
+            src={assets.chatslogo}
             alt="logo"
             className="h-14 md:h-16 object-contain"
           />
@@ -236,7 +145,11 @@ const Chats = () => {
               {/* Profile */}
               <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 hover:border-2 hover:border-orange-500">
                 <img
-                  src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1769329160/ChatGPT_Image_Jan_25_2026_01_48_42_PM_afyucw.png"
+                  src={
+                    contact.profileImage === ""
+                      ? assets.profileimage
+                      : `${apiUrl}/images/${contact.profileImage}`
+                  }
                   alt={contact.username}
                   className="w-full h-full object-cover"
                 />

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookies";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Context } from "../context/Context";
+import { assets } from "../../assets/assets";
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -76,7 +77,7 @@ const Login = () => {
       >
         <div className="flex justify-center">
           <img
-            src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1768722655/ChatGPT_Image_Jan_16_2026_08_06_42_PM_png3hf.png"
+            src={assets.loginlogo}
             alt="logo"
             className="h-2/4 w-2/4"
             onClick={() => navigate("/")}

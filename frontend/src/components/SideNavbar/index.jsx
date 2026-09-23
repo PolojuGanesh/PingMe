@@ -18,7 +18,7 @@ const SideNavbar = () => {
     <>
       <aside
         className="
-          w-16
+          w-[15%]
           md:w-18
           lg:w-20
           border-r

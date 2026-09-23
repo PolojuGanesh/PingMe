@@ -7,7 +7,6 @@ const ResetPassword = async (req, res) => {
 
   try {
     const user = await UserRegister.findOne({ mobileNumber });
-    console.log("User found:", user); // Log the user object for debugging
 
     if (!user) {
       return res
@@ -22,7 +21,6 @@ const ResetPassword = async (req, res) => {
         .json({ success: true, message: "Password reset successfully" });
     }
   } catch (error) {
-    console.error("Error resetting password:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

@@ -25,7 +25,6 @@ const SearchUser = async (req, res) => {
       res.status(200).json({ success: true, users });
     }
   } catch (error) {
-    console.error("Error searching for users:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

@@ -34,6 +34,7 @@ const LoginUser = async (req, res) => {
             id: isMobileNumberExists._id,
             mobileNumber: isMobileNumberExists.mobileNumber,
             username: isMobileNumberExists.username,
+            profileImage: isMobileNumberExists.profileImage,
           },
         });
       } else {
@@ -49,7 +50,6 @@ const LoginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",

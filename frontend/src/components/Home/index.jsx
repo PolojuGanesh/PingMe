@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Context } from "../context/Context";
+import { assets } from "../../assets/assets";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,12 +19,12 @@ const Home = () => {
         border-b-green-500 border-l-pink-500 w-4/5 h-5/6 p-10 rounded-lg bg-white"
       >
         <img
-          src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1768722657/ChatGPT_Image_Jan_16_2026_08_04_38_PM_gwf7pu.png"
+          src={assets.viewer}
           alt="logo"
           className="h-2/5 w-2/5 mb-4 hidden md:block"
         />
         <img
-          src="https://res.cloudinary.com/dzqfuqpu4/image/upload/v1768722655/ChatGPT_Image_Jan_16_2026_08_06_42_PM_png3hf.png"
+          src={assets.loginlogo}
           alt="logo"
           className="h-full w-full block md:hidden"
         />
