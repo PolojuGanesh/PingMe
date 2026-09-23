@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Context } from "../context/Context";
-import ProfileModal from "../Modal/profilemodal";
+import ProfileModal from "../Modal/ProfileModal";
 
 import {
   MessageSquareText,
