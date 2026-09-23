@@ -28,7 +28,7 @@ const ContextProvider = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const apiUrl = "https://pingme-backend-fmyo.onrender.com";
+  const apiUrl = "https://pingme-backend-fmyo.onrender.com/api";
 
   const fetchContacts = async () => {
     if (!userDetails?.id) return;
