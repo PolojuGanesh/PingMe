@@ -39,8 +39,6 @@ const ProfileModal = () => {
 
       const response = await fetch(`${apiUrl}/add-profile-image`, options);
       const responseData = await response.json();
-      console.log(responseData);
-      console.log(responseData.user);
 
       if (response.ok && responseData.success) {
         const updateUserDetails = responseData.user;
