@@ -1,12 +1,16 @@
-import { Route, Navigate } from "react-router-dom";
-import { Children, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
 import { Context } from "../context/Context";
 
 const ProtectedRoute = ({ children }) => {
   const { jwtToken } = useContext(Context);
-  if (jwtToken === null) {
-    return <Navigate to="/" replace />;
+
+  // User is not logged in
+  if (!jwtToken) {
+    return <Navigate to="/login" replace />;
   }
+
+  // User is logged in
   return children;
 };
 

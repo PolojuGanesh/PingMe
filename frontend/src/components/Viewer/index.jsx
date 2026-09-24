@@ -144,7 +144,6 @@ const Viewer = () => {
                   </div>
                 )}
                 <div
-                  // key={message._id}
                   className={`flex ${isMine ? "justify-end" : "justify-start"}`}
                 >
                   <div
@@ -161,16 +160,16 @@ const Viewer = () => {
                   >
                     <p
                       className={`whitespace-pre-wrap break-words [overflow-wrap:anywhere] ${
-                        expandedMessages[message.id] ? "" : "line-clamp-4"
+                        expandedMessages[message._id] ? "" : "line-clamp-4"
                       }`}
                     >
                       {message.text}
                     </p>
 
-                    {!expandedMessages[message.id] &&
+                    {!expandedMessages[message._id] &&
                       message.text.length > 150 && (
                         <button
-                          onClick={() => toggleMessage(message.id)}
+                          onClick={() => toggleMessage(message._id)}
                           className={`font-medium cursor-pointer ${
                             isMine ? "text-black" : "text-violet-600"
                           }`}
@@ -179,9 +178,9 @@ const Viewer = () => {
                         </button>
                       )}
 
-                    {expandedMessages[message.id] && (
+                    {expandedMessages[message._id] && (
                       <button
-                        onClick={() => toggleMessage(message.id)}
+                        onClick={() => toggleMessage(message._id)}
                         className={`font-medium cursor-pointer ${
                           isMine ? "text-black" : "text-violet-600"
                         }`}

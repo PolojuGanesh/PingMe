@@ -19,6 +19,7 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "https://pingme-frontend-hxv1.onrender.com",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -62,7 +63,8 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  // console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ${PORT}`);
 });
 
 export { io };
