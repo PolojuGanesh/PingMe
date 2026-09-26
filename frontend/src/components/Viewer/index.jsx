@@ -83,16 +83,19 @@ const Viewer = () => {
 
   return (
     <>
-      <section className="flex flex-col flex-1 bg-gray-50 h-full overflow-x-hidden">
+      <section className="flex flex-col flex-1 w-0 min-w-0 bg-gray-50 h-full overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-20 bg-gray-100 border-b px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <header className="shrink-0 sticky top-0 z-20 bg-gray-100 border-b px-4 py-3 flex items-center justify-between min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
             {/* Mobile Back Button */}
-            <button onClick={() => setSelectedChat(null)} className="md:hidden">
+            <button
+              onClick={() => setSelectedChat(null)}
+              className="md:hidden shrink-0"
+            >
               <ArrowLeft size={22} />
             </button>
 
-            <div className="w-11 h-11 rounded-full overflow-hidden">
+            <div className="w-11 h-11 rounded-full overflow-hidden shrink-0">
               <img
                 src={
                   selectedChat.profileImage === ""
@@ -104,25 +107,39 @@ const Viewer = () => {
               />
             </div>
 
-            <div>
-              <h2 className="font-semibold">
+            <div className="min-w-0">
+              <h2 className="font-semibold truncate">
                 {selectedChat.mobileNumber}{" "}
                 {userDetails?.id === selectedChat._id && (
                   <span className="text-red-500 font-semibold">(You)</span>
                 )}
               </h2>
-              <p className="text-sm text-gray-500">{selectedChat.username}</p>
+              <p className="text-sm text-gray-500 truncate">
+                {selectedChat.username}
+              </p>
             </div>
           </div>
 
           <EllipsisVertical
             onClick={() => setOpenChatSetting(true)}
-            className="cursor-pointer hover:text-red-500"
+            className="cursor-pointer hover:text-red-500 shrink-0"
           />
         </header>
 
         {/* Messages */}
-        <main className="flex-1 overflow-y-auto px-4 py-4 space-y-3 overflow-x-hidden">
+        <main
+          className="flex-1
+            min-h-0
+            min-w-0
+            w-full
+            overflow-y-auto
+            overflow-x-hidden
+            px-2
+            sm:px-3
+            md:px-4
+            py-4
+            space-y-3"
+        >
           {chatMessages.map((message, index) => {
             const isMine = String(message.senderId) === String(userDetails?.id);
 
@@ -135,7 +152,7 @@ const Viewer = () => {
 
             const showDate = currentDate !== previousDate;
             return (
-              <div key={message._id}>
+              <div key={message._id} className="w-full min-w-0">
                 {showDate && (
                   <div className="flex justify-center my-4">
                     <span className="bg-gray-200 px-3 py-1 rounded-md text-xs text-gray-600">
@@ -144,22 +161,30 @@ const Viewer = () => {
                   </div>
                 )}
                 <div
-                  className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+                  className={`flex w-full min-w-0 ${isMine ? "justify-end" : "justify-start"}`}
                 >
                   <div
                     className={`min-w-0
-                    w-fit
-              max-w-[85%]
-              sm:max-w-[75%]
-              md:max-w-[60%]
-              lg:max-w-[50%] rounded-tl-xl rounded-tr-xl rounded-br-xl px-4 py-2  ${
-                isMine
-                  ? "bg-violet-500 text-white"
-                  : "bg-white text-black border"
-              }`}
+                      w-auto
+                      max-w-[90%]
+                      sm:max-w-[80%]
+                      md:max-w-[70%]
+                      lg:max-w-[60%]
+                      xl:max-w-[55%]
+                      overflow-hidden
+                      rounded-tl-xl
+                      rounded-tr-xl
+                      rounded-br-xl
+                      px-3
+                      sm:px-4
+                      py-2  ${
+                        isMine
+                          ? "bg-violet-500 text-white"
+                          : "bg-white text-black border"
+                      }`}
                   >
                     <p
-                      className={`whitespace-pre-wrap break-words [overflow-wrap:anywhere] ${
+                      className={`min-w-0 max-w-full whitespace-pre-wrap break-words [overflow-wrap:anywhere] ${
                         expandedMessages[message._id] ? "" : "line-clamp-4"
                       }`}
                     >
@@ -170,7 +195,7 @@ const Viewer = () => {
                       message.text.length > 150 && (
                         <button
                           onClick={() => toggleMessage(message._id)}
-                          className={`font-medium cursor-pointer ${
+                          className={`font-medium cursor-pointer block mt-1 text-sm whitespace-nowrap ${
                             isMine ? "text-black" : "text-violet-600"
                           }`}
                         >
@@ -181,7 +206,7 @@ const Viewer = () => {
                     {expandedMessages[message._id] && (
                       <button
                         onClick={() => toggleMessage(message._id)}
-                        className={`font-medium cursor-pointer ${
+                        className={`font-medium cursor-pointer block mt-1 text-sm whitespace-nowrap ${
                           isMine ? "text-black" : "text-violet-600"
                         }`}
                       >
@@ -190,7 +215,7 @@ const Viewer = () => {
                     )}
 
                     <p
-                      className={`text-[10px] mt-1 text-right ${
+                      className={`text-[10px] mt-1 text-right whitespace-nowrap ${
                         isMine ? "text-violet-100" : "text-gray-500"
                       }`}
                     >
@@ -209,8 +234,8 @@ const Viewer = () => {
         </main>
 
         {/* Message Input */}
-        <footer className="border-t bg-white p-3">
-          <div className="flex items-center gap-3">
+        <footer className="border-t bg-white p-3 shrink-0 min-w-0">
+          <div className="flex items-center gap-3 min-w-0">
             <input
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
@@ -218,6 +243,7 @@ const Viewer = () => {
               placeholder="Type a message..."
               className="
               flex-1
+              min-w-0
               rounded-full
               border
               bg-gray-100
@@ -231,6 +257,7 @@ const Viewer = () => {
             <button
               onClick={sendMessageHandler}
               className="
+              shrink-0
               rounded-full
               bg-violet-600
               px-5

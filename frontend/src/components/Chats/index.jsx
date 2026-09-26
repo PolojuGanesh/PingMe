@@ -1,9 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { EllipsisVertical } from "lucide-react";
-import { toast } from "react-toastify";
 
 import { Context } from "../context/Context";
 import { assets } from "../../assets/assets";
+import OnlyProfileModal from "../Modal/OnlyProfileModal";
 
 const Chats = () => {
   const {
@@ -17,7 +17,8 @@ const Chats = () => {
     setSearchResults,
     selectedChat,
     setSelectedChat,
-    chatMessages,
+    setopenOnlyProfile,
+    setProfile,
   } = useContext(Context);
 
   const userSearchHandler = async () => {
@@ -119,12 +120,12 @@ const Chats = () => {
       {/* Contact List */}
       {contactsToDisplay.length > 0 ? (
         <div className="flex-1 overflow-y-auto scrollbar-none">
-          {contactsToDisplay.map((contact) => (
-            // console.log(contact),
-            <div
-              key={contact._id}
-              onClick={() => checkContactInList(contact)}
-              className={`
+          {contactsToDisplay.map((contact) => {
+            return (
+              <div
+                key={contact._id}
+                onClick={() => checkContactInList(contact)}
+                className={`
                     flex
                     cursor-pointer
                     items-center
@@ -141,63 +142,77 @@ const Chats = () => {
                     hover:bg-gradient-to-r from-blue-200 via-purple-200 to-violet-200
                     ${selectedChat?._id === contact._id ? "bg-violet-50" : ""}
                   `}
-            >
-              {/* Profile */}
-              <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 hover:border-2 hover:border-orange-500">
-                <img
-                  src={
-                    contact.profileImage === ""
-                      ? assets.profileimage
-                      : `${apiUrl}/images/${contact.profileImage}`
-                  }
-                  alt={contact.username}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Details */}
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-center">
-                  <h2 className="font-semibold truncate">
-                    {contact.mobileNumber}{" "}
-                    {userDetails?.id === contact._id && (
-                      <span className="text-red-500 font-semibold">(You)</span>
-                    )}
-                  </h2>
-
-                  {allContacts.some(
-                    (eachContact) =>
-                      contact.mobileNumber === eachContact.mobileNumber,
-                  ) && <span className="text-xs text-gray-500">07:07 PM</span>}
+              >
+                {/* Profile */}
+                <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 hover:border-2 hover:border-orange-500">
+                  <img
+                    src={
+                      contact.profileImage === ""
+                        ? `${assets.profileimage}`
+                        : `${apiUrl}/images/${contact.profileImage}`
+                    }
+                    alt={contact.username}
+                    className="w-full h-full object-cover cursor-default"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProfile({
+                        profileImage: contact.profileImage,
+                        username: contact.username,
+                      });
+                      setopenOnlyProfile(true);
+                    }}
+                  />
                 </div>
 
-                <p className="text-sm text-gray-600 truncate">
-                  {contact.username}
-                </p>
+                {/* Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-semibold truncate">
+                      {contact.mobileNumber}{" "}
+                      {userDetails?.id === contact._id && (
+                        <span className="text-red-500 font-semibold">
+                          (You)
+                        </span>
+                      )}
+                    </h2>
+
+                    {allContacts.some(
+                      (eachContact) =>
+                        contact.mobileNumber === eachContact.mobileNumber,
+                    ) && (
+                      <span className="text-xs text-gray-500">07:07 PM</span>
+                    )}
+                  </div>
+
+                  <p className="text-sm text-gray-600 truncate">
+                    {contact.username}
+                  </p>
+                </div>
+                {!allContacts.some(
+                  (eachContact) =>
+                    contact.mobileNumber === eachContact.mobileNumber,
+                ) && (
+                  <button
+                    type="button"
+                    className="border border-gray-500 rounded p-1 text-sm hover:bg-violet-500 hover:text-white hover:border-violet-500 bg-transparent"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToContactsHandler(contact, userDetails.id);
+                    }}
+                  >
+                    Add to contacts
+                  </button>
+                )}
               </div>
-              {!allContacts.some(
-                (eachContact) =>
-                  contact.mobileNumber === eachContact.mobileNumber,
-              ) && (
-                <button
-                  type="button"
-                  className="border border-gray-500 rounded p-1 text-sm hover:bg-violet-500 hover:text-white hover:border-violet-500 bg-transparent"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToContactsHandler(contact, userDetails.id);
-                  }}
-                >
-                  Add to contacts
-                </button>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <p className="text-gray-500 font-medium text-lg text-center py-4 flex flex-col justify-center items-center h-full">
           No contacts found.
         </p>
       )}
+      <OnlyProfileModal />
     </section>
   );
 };
