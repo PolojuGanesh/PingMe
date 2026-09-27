@@ -149,7 +149,7 @@ const Chats = () => {
                     src={
                       contact.profileImage === ""
                         ? `${assets.profileimage}`
-                        : `${apiUrl}/images/${contact.profileImage}`
+                        : `${contact.profileImage}`
                     }
                     alt={contact.username}
                     className="w-full h-full object-cover cursor-default"

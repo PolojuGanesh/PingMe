@@ -112,7 +112,7 @@ const ProfileModal = () => {
                 image
                   ? URL.createObjectURL(image)
                   : userDetails?.profileImage
-                    ? `${apiUrl}/images/${userDetails.profileImage}`
+                    ? `${userDetails.profileImage}`
                     : assets.profileimage
               }
               alt="profile"

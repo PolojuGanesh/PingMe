@@ -100,7 +100,7 @@ const Viewer = () => {
                 src={
                   selectedChat.profileImage === ""
                     ? assets.profileimage
-                    : `${apiUrl}/images/${selectedChat.profileImage}`
+                    : `${selectedChat.profileImage}`
                 }
                 alt={selectedChat.username}
                 className="w-full h-full object-cover"

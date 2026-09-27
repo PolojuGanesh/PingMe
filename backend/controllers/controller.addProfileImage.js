@@ -1,3 +1,4 @@
+import cloudinary from "../config/cloudinary.js";
 import UserRegister from "../models/Users.js";
 
 const AddProfileImage = async (req, res) => {
@@ -8,14 +9,18 @@ const AddProfileImage = async (req, res) => {
       });
     }
 
-    const profileImage = req.file.filename;
+    // const profileImage = req.file.filename;
     const { userId } = req.body;
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "PingMe/ProfileImages",
+    });
 
     const updateUser = await UserRegister.findByIdAndUpdate(
       userId,
       {
         $set: {
-          profileImage,
+          profileImage: result.secure_url,
         },
       },
       { new: true },

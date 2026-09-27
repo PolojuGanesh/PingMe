@@ -20,7 +20,7 @@ const OnlyProfileModal = () => {
         src={
           profile[Object.keys(profile).at(-1)] === ""
             ? `${assets.profileimage}`
-            : `${apiUrl}/images/${profile.profileImage}`
+            : `${profile.profileImage}`
         }
         alt={profile.username}
         className="w-full h-full object-cover"
