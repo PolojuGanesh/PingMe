@@ -5,8 +5,7 @@ import { useContext } from "react";
 import { assets } from "../../assets/assets";
 
 const OnlyProfileModal = () => {
-  const { openOnlyProfile, setopenOnlyProfile, profile, apiUrl } =
-    useContext(Context);
+  const { openOnlyProfile, setopenOnlyProfile, profile } = useContext(Context);
 
   return (
     <Modal

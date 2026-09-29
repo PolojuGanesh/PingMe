@@ -176,12 +176,12 @@ const Chats = () => {
                       )}
                     </h2>
 
-                    {allContacts.some(
+                    {/* {allContacts.some(
                       (eachContact) =>
                         contact.mobileNumber === eachContact.mobileNumber,
                     ) && (
                       <span className="text-xs text-gray-500">07:07 PM</span>
-                    )}
+                    )} */}
                   </div>
 
                   <p className="text-sm text-gray-600 truncate">

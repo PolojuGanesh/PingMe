@@ -6,6 +6,7 @@ import connectDB from "./config/database.js";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import Message from "./models/Messages.js";
+import UserRegister from "./models/Users.js";
 
 // connect to database
 connectDB();
@@ -47,6 +48,22 @@ io.on("connection", (socket) => {
         receiverId,
         text,
       });
+
+      // Automatically add sender to receiver's contacts
+      await UserRegister.findByIdAndUpdate(
+        receiverId,
+        {
+          $addToSet: {
+            contacts: {
+              userId: senderId,
+            },
+          },
+        },
+        { new: true },
+      );
+
+      // Tells receiver that a new contact was added
+      io.to(receiverId).emit("new_contact");
 
       // send to receiver
       io.to(receiverId).emit("receive_message", newMessage);

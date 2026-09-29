@@ -231,6 +231,19 @@ const ContextProvider = (props) => {
     };
   }, [selectedChat?._id, userDetails?.id]);
 
+  // New contact listener
+  useEffect(() => {
+    const handleNewContact = () => {
+      fetchContacts();
+    };
+
+    socket.on("new_contact", handleNewContact);
+
+    return () => {
+      socket.off("new_contact", handleNewContact);
+    };
+  }, [userDetails?.id]);
+
   const getChatMessagesHandler = async () => {
     if (!userDetails?.id || !selectedChat?._id) {
       return;
