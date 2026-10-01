@@ -9,6 +9,8 @@ import DeleteChat from "../controllers/controller.deleteChat.js";
 import GetChatMessages from "../controllers/controller.getChatMessages.js";
 import upload from "../multer.js";
 import AddProfileImage from "../controllers/controller.addProfileImage.js";
+import SendOtp from "../controllers/controller.sendOtp.js";
+import VerifyOtp from "../controllers/controller.otp.js";
 
 const router = express.Router();
 
@@ -25,5 +27,7 @@ router.post(
   upload.single("profileImage"),
   AddProfileImage,
 );
+router.post("/send-otp", SendOtp);
+router.post("/verify-otp", VerifyOtp);
 
 export default router;

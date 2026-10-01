@@ -2,11 +2,17 @@ import UserRegister from "../models/Users.js";
 import bcrypt from "bcrypt";
 
 const ResetPassword = async (req, res) => {
-  const { mobileNumber, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-
   try {
-    const user = await UserRegister.findOne({ mobileNumber });
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required" });
+    }
+
+    const user = await UserRegister.findOne({ email: email });
 
     if (!user) {
       return res

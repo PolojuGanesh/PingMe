@@ -3,10 +3,10 @@ import UserRegister from "../models/Users.js";
 
 const RegisterUser = async (req, res) => {
   try {
-    const { mobileNumber, username, password } = req.body;
+    const { mobileNumber, username, email, password } = req.body;
 
     // check all fields are provided
-    if (!mobileNumber || !username || !password) {
+    if (!mobileNumber || !username || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "Please provide all required fields",
@@ -31,6 +31,14 @@ const RegisterUser = async (req, res) => {
       });
     }
 
+    const isEmailExists = await UserRegister.findOne({ email });
+    if (isEmailExists) {
+      return res.status(409).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+
     if (username.length < 7 || username.length > 14) {
       return res.status(400).json({
         success: false,
@@ -52,6 +60,7 @@ const RegisterUser = async (req, res) => {
     const user = await UserRegister.create({
       mobileNumber,
       username,
+      email,
       password: hashedPassword,
     });
 
@@ -67,7 +76,7 @@ const RegisterUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };

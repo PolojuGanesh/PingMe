@@ -149,6 +149,9 @@ const ProfileModal = () => {
           <p className="text-md font-medium text-green-500 text-center">
             {userDetails.username}
           </p>
+          <p className="text-md font-medium text-violet-500 text-center">
+            {userDetails.email}
+          </p>
         </div>
         <div>
           {arrList.map((each) => (

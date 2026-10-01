@@ -4,10 +4,10 @@ import UserRegister from "../models/Users.js";
 
 const LoginUser = async (req, res) => {
   try {
-    const { mobileNumber, password } = req.body;
+    const { email, password } = req.body;
 
     // check all fields are provided
-    if (!mobileNumber || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: "Please provide all required fields",
@@ -15,26 +15,27 @@ const LoginUser = async (req, res) => {
     }
 
     // check user has prev registered or not
-    const isMobileNumberExists = await UserRegister.findOne({
-      mobileNumber,
+    const isEmailExists = await UserRegister.findOne({
+      email: email,
     }).select("+password");
-    if (isMobileNumberExists) {
+    if (isEmailExists) {
       const isPasswordMatched = await bcrypt.compare(
         password,
-        isMobileNumberExists.password,
+        isEmailExists.password,
       );
       if (isPasswordMatched) {
-        const payload = { mobileNumber };
+        const payload = { email: isEmailExists.email, id: isEmailExists._id };
         const token = jwt.sign(payload, "My_Token");
         return res.status(200).json({
           success: true,
           message: "Login successfull",
           token,
           user: {
-            id: isMobileNumberExists._id,
-            mobileNumber: isMobileNumberExists.mobileNumber,
-            username: isMobileNumberExists.username,
-            profileImage: isMobileNumberExists.profileImage,
+            id: isEmailExists._id,
+            mobileNumber: isEmailExists.mobileNumber,
+            email: isEmailExists.email,
+            username: isEmailExists.username,
+            profileImage: isEmailExists.profileImage,
           },
         });
       } else {
